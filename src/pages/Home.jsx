@@ -1,1 +1,8 @@
-<div><h1>Catálogo de Filmes Populares</h1></div>
+function Home() {
+    return (
+        <div>
+            <h1>Catálogo de Filmes Populares</h1>
+            </div>
+    );
+}
+

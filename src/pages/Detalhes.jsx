@@ -1,1 +1,9 @@
-<div><h1>Detalhes do Filme</h1></div>
+function Detalhes() {
+    return (
+        <div>
+            <h1>Detalhes do Filme</h1>
+            </div>
+    );
+}
+
+
