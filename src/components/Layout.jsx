@@ -1,8 +1,31 @@
+import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { Outlet } from 'react-router-dom';
-import '../App.css'; // Ajuste o caminho até o App.css
 
 function Layout() {
+  // Inicialização lendo do localStorage
+  const [favoritos, setFavoritos] = useState(() => {
+    const salvos = localStorage.getItem('filmes_favoritos');
+    return salvos ? JSON.parse(salvos) : [];
+  });
+
+  // Função para alternar o status respeitando a imutabilidade
+  function alternarFavorito(filme) {
+    const jaExiste = favoritos.some((item) => item.id === filme.id);
+    let novaLista = [];
+
+    if (jaExiste) {
+      // Remoção imutável usando filter
+      novaLista = favoritos.filter((item) => item.id !== filme.id);
+    } else {
+      // Adição imutável usando spread operator
+      novaLista = [...favoritos, filme];
+    }
+
+    setFavoritos(novaLista);
+    localStorage.setItem('filmes_favoritos', JSON.stringify(novaLista));
+  }
+
   return (
     <div className="app-container">
       <header>
@@ -10,7 +33,8 @@ function Layout() {
       </header>
 
       <main className="conteudo-principal">
-        <Outlet />
+        {/* Disponibiliza o contexto para todas as rotas filhas */}
+        <Outlet context={{ favoritos, alternarFavorito }} />
       </main>
 
       <footer className="rodape">
